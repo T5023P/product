@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProductActions from "./ProductActions";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import ProductGallery from "./ProductGallery";
+import { resolveRouteId } from "../../../lib/routeId";
 
 interface ProductData {
   name: string;
@@ -16,7 +17,11 @@ interface ProductData {
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
-  const id = params?.id ?? "";
+  const pathname = usePathname();
+  const id = useMemo(
+    () => resolveRouteId("p", params?.id, pathname),
+    [params?.id, pathname]
+  );
 
   const [product, setProduct] = useState<ProductData | null>(null);
   const [loading, setLoading] = useState(true);

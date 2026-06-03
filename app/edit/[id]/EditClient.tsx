@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, deleteDoc, getDoc, updateDoc, collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../lib/firebase";
 import { compressImage } from "../../../lib/compressImage";
 import ImageCropper from "../../(admin)/ImageCropper";
+import { resolveRouteId } from "../../../lib/routeId";
 
 interface UploadedFile {
   id: string;
@@ -25,7 +26,11 @@ interface ProductDoc {
 
 export default function EditProductPage() {
   const params = useParams<{ id: string }>();
-  const id = params?.id ?? "";
+  const pathname = usePathname();
+  const id = useMemo(
+    () => resolveRouteId("edit", params?.id, pathname),
+    [params?.id, pathname]
+  );
   const router = useRouter();
 
   const galleryInputRef = useRef<HTMLInputElement>(null);

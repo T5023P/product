@@ -2,9 +2,10 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import { resolveRouteId } from "../../../lib/routeId";
 
 interface Product {
   id: string;
@@ -16,7 +17,11 @@ interface Product {
 
 export default function CategoryPage() {
   const params = useParams<{ id: string }>();
-  const id = params?.id ?? "";
+  const pathname = usePathname();
+  const id = useMemo(
+    () => resolveRouteId("category", params?.id, pathname),
+    [params?.id, pathname]
+  );
   const [categoryName, setCategoryName] = useState("Category");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
