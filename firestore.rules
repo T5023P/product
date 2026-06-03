@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Categories collection: public read, signed-in admin UI writes
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Products collection: public read, signed-in admin UI writes
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // Default: deny all other writes, allow reads where safe
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

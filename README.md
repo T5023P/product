@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Catalog App
 
-## Getting Started
+Static-export Next.js catalog app backed by Firebase and prepared for Cloudflare Pages deployment.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The admin dashboard lives in `app/(admin)` and the public product pages live in `app/p/[id]`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cloudflare deploy
 
-## Learn More
+This app already uses static export in `next.config.ts`, so it bypasses Vercel image optimization completely and serves Firebase Storage images directly to the browser.
 
-To learn more about Next.js, take a look at the following resources:
+1. Build the static output:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build:cloudflare
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Deploy the generated `out/` folder to Cloudflare Pages:
 
-## Deploy on Vercel
+```bash
+npm run deploy:cloudflare
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. In Cloudflare Pages, connect the repository and use:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Build command: `npm run build:cloudflare`
+- Build output directory: `out`
+
+The Wrangler config is stored in `wrangler.toml` and uses `pages_build_output_dir = "./out"` so Cloudflare can deploy the same artifact locally or in CI.
+
+## Notes
+
+- Product images are loaded from Firebase Storage using regular browser image requests.
+- The old `.vercel/` folder is no longer needed once Cloudflare is your active host.
+- If you want Cloudflare to become the only deployment target, disconnect the Vercel project in the Vercel dashboard after verifying the Pages deployment.
