@@ -20,13 +20,13 @@ export function resolveRouteId(
 }
 
 export function productPath(id: string) {
-  return `/p/__placeholder__?id=${encodeURIComponent(id)}`;
+  return `/p?id=${encodeURIComponent(id)}`;
 }
 
 export function editProductPath(id: string) {
-  return `/edit/__placeholder__?id=${encodeURIComponent(id)}`;
+  return `/edit?id=${encodeURIComponent(id)}`;
 }
 
 export function categoryPath(id: string) {
-  return `/category/__placeholder__?id=${encodeURIComponent(id)}`;
+  return `/category?id=${encodeURIComponent(id)}`;
 }
