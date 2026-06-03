@@ -2,10 +2,10 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
-import { resolveRouteId } from "../../../lib/routeId";
+import { productPath, resolveRouteId } from "../../../lib/routeId";
 
 interface Product {
   id: string;
@@ -18,9 +18,10 @@ interface Product {
 export default function CategoryPage() {
   const params = useParams<{ id: string }>();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const id = useMemo(
-    () => resolveRouteId("category", params?.id, pathname),
-    [params?.id, pathname]
+    () => resolveRouteId("category", params?.id, pathname, searchParams.get("id")),
+    [params?.id, pathname, searchParams]
   );
   const [categoryName, setCategoryName] = useState("Category");
   const [products, setProducts] = useState<Product[]>([]);
@@ -134,7 +135,7 @@ export default function CategoryPage() {
               return (
                 <Link
                   key={product.id}
-                  href={`/p/${product.id}`}
+                  href={productPath(product.id)}
                   className="bg-white border border-outline-variant rounded-xl overflow-hidden hover:border-primary transition-colors"
                 >
                   <div className="relative aspect-[4/5] bg-surface-container">

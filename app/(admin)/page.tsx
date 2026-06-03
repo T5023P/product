@@ -14,6 +14,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import { editProductPath, productPath } from "../../lib/routeId";
 
 interface Product {
   id: string;
@@ -195,8 +196,23 @@ function AdminDashboardContent() {
 
   const handleCopy = async (id: string) => {
     try {
-      const link = `${window.location.origin}/p/${id}`;
-      await navigator.clipboard.writeText(link);
+      const link = `${window.location.origin}${productPath(id)}`;
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(link);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = link;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const copied = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        if (!copied) {
+          throw new Error("Clipboard copy failed");
+        }
+      }
       setCopiedId(id);
       setTimeout(() => {
         setCopiedId((current) => (current === id ? null : current));
@@ -208,13 +224,16 @@ function AdminDashboardContent() {
   };
 
   const openWhatsApp = (id: string, name: string) => {
-    const link = `${window.location.origin}/p/${id}`;
+    const link = `${window.location.origin}${productPath(id)}`;
     const text = encodeURIComponent(`Check out ${name} from our catalog: ${link}`);
     const appDeepLink = `whatsapp://send?text=${text}`;
     const webLink = `https://wa.me/?text=${text}`;
     window.location.href = appDeepLink;
     window.setTimeout(() => {
-      window.open(webLink, "_blank", "noopener,noreferrer");
+      const opened = window.open(webLink, "_blank", "noopener,noreferrer");
+      if (!opened) {
+        window.location.href = webLink;
+      }
     }, 450);
   };
 
@@ -526,7 +545,7 @@ function AdminDashboardContent() {
 
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
   <Link
-    href={`/edit/${product.id}`}
+    href={editProductPath(product.id)}
     aria-label={`Edit ${product.name}`}
     className="inline-flex items-center gap-1.5 px-3 md:px-4 py-2 rounded-full border border-outline-variant text-primary hover:bg-surface-container-high text-xs font-semibold transition-colors cursor-pointer"
   >
@@ -555,7 +574,7 @@ function AdminDashboardContent() {
   </button>
 
   <a
-    href={`/p/${product.id}`}
+    href={productPath(product.id)}
     target="_blank"
     rel="noopener noreferrer"
     className="inline-flex items-center gap-1.5 px-3 md:px-4 py-2 rounded-full border border-outline-variant text-primary hover:bg-surface-container-high text-xs font-semibold transition-colors cursor-pointer"

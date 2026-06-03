@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, deleteDoc, getDoc, updateDoc, collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../../lib/firebase";
@@ -27,9 +27,10 @@ interface ProductDoc {
 export default function EditProductPage() {
   const params = useParams<{ id: string }>();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const id = useMemo(
-    () => resolveRouteId("edit", params?.id, pathname),
-    [params?.id, pathname]
+    () => resolveRouteId("edit", params?.id, pathname, searchParams.get("id")),
+    [params?.id, pathname, searchParams]
   );
   const router = useRouter();
 

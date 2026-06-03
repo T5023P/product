@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { collection, addDoc, onSnapshot, deleteDoc, doc, orderBy, query } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import { categoryPath } from "../../../lib/routeId";
 
 export default function CategoriesAdminPage() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
@@ -89,8 +90,8 @@ export default function CategoriesAdminPage() {
   const handleCopy = async (id: string) => {
     const link =
       typeof window !== "undefined"
-        ? `${window.location.origin}/category/${id}`
-        : `/category/${id}`;
+        ? `${window.location.origin}${categoryPath(id)}`
+        : categoryPath(id);
     try {
       await navigator.clipboard.writeText(link);
       setCopiedId(id);
@@ -151,7 +152,7 @@ export default function CategoriesAdminPage() {
             {filteredCategories.map((c) => (
               <li key={c.id} className="bg-white border border-outline-variant rounded-xl p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <Link href={`/category/${c.id}`} className="min-w-0 group">
+                  <Link href={categoryPath(c.id)} className="min-w-0 group">
                     <div className="flex items-center gap-2">
                       <span className="material-symbols-outlined text-primary text-[20px]">folder</span>
                       <span className="text-sm font-semibold text-primary group-hover:underline truncate">{c.name}</span>
@@ -162,7 +163,7 @@ export default function CategoriesAdminPage() {
                   </Link>
 
                   <div className="flex items-center gap-2">
-                    <Link href={`/category/${c.id}`} className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary border border-outline-variant rounded-full px-3 py-2">
+                    <Link href={categoryPath(c.id)} className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary border border-outline-variant rounded-full px-3 py-2">
                       <span className="material-symbols-outlined text-[16px]">open_in_new</span>
                       <span>Open</span>
                     </Link>

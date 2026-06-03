@@ -2,34 +2,58 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { editProductPath } from "../../../lib/routeId";
 
 export default function ProductActions({ productId }: { productId: string }) {
   const router = useRouter();
 
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
+  const copyToClipboard = async (text: string) => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const copied = document.execCommand("copy");
+    document.body.removeChild(textarea);
+    if (!copied) {
+      throw new Error("Clipboard copy failed");
+    }
+  };
+
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(currentUrl);
+      await copyToClipboard(currentUrl);
       alert("Product link copied to clipboard!");
-    } catch (e) {
+    } catch {
       alert("Failed to copy link.");
     }
   };
 
   const handleEdit = () => {
-    router.push(`/admin/edit/${productId}`);
+    router.push(editProductPath(productId));
   };
 
   const handleWhatsApp = () => {
     const phone = "<YOUR_PHONE_NUMBER>"; // replace with actual number or config
     const encodedUrl = encodeURIComponent(currentUrl);
     const waLink = `https://wa.me/${phone}?text=Check%20out%20this%20product%20${encodedUrl}`;
-    window.open(waLink, "_blank");
+    window.open(waLink, "_blank", "noopener,noreferrer");
   };
 
   const handleOpenInBrowser = () => {
-    window.open(currentUrl, "_blank", "noopener,noreferrer");
+    const opened = window.open(currentUrl, "_blank", "noopener,noreferrer");
+    if (!opened) {
+      window.location.href = currentUrl;
+    }
   };
 
   return (

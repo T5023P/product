@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import ProductActions from "./ProductActions";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import ProductGallery from "./ProductGallery";
@@ -18,9 +18,10 @@ interface ProductData {
 export default function ProductPage() {
   const params = useParams<{ id: string }>();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const id = useMemo(
-    () => resolveRouteId("p", params?.id, pathname),
-    [params?.id, pathname]
+    () => resolveRouteId("p", params?.id, pathname, searchParams.get("id")),
+    [params?.id, pathname, searchParams]
   );
 
   const [product, setProduct] = useState<ProductData | null>(null);
