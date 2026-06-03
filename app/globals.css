@@ -3,6 +3,8 @@
 :root {
   --background: #f9f9f9;
   --foreground: #1a1c1c;
+  --font-inter: ui-sans-serif, system-ui, sans-serif;
+  --font-manrope: ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme {
@@ -30,6 +32,23 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.material-symbols-outlined {
+  direction: ltr;
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: "Material Symbols Outlined";
+  font-feature-settings: "liga";
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  max-width: 1em;
+  overflow: hidden;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
 }
 
 /* Custom styled scrollbars or helper utilities */
