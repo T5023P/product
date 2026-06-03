@@ -44,6 +44,9 @@ function AdminLayoutShell({
   useEffect(() => {
     if (!user) return;
 
+    const isListPage = pathname === "/" || pathname === "/categories";
+    if (!isListPage) return;
+
     const targetPath = pathname === "/categories" ? "/categories" : "/";
     const params = new URLSearchParams(searchParams.toString());
     const nextValue = sidebarSearch.trim();
