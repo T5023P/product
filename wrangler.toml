@@ -1,6 +1,6 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 
-name = "catalog-app"
+name = "product"
 compatibility_date = "2026-06-03"
 [assets]
 directory = "./out"
