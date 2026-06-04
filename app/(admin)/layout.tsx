@@ -44,10 +44,12 @@ function AdminLayoutShell({
   useEffect(() => {
     if (!user) return;
 
-    const isListPage = pathname === "/" || pathname === "/categories";
+    const isListPage =
+      pathname === "/catalog" || pathname === "/catalog/categories";
     if (!isListPage) return;
 
-    const targetPath = pathname === "/categories" ? "/categories" : "/";
+    const targetPath =
+      pathname === "/catalog/categories" ? "/catalog/categories" : "/catalog";
     const params = new URLSearchParams(searchParams.toString());
     const nextValue = sidebarSearch.trim();
 
@@ -94,7 +96,7 @@ function AdminLayoutShell({
   };
 
   const sidebarSearchPlaceholder =
-    pathname === "/categories" ? "Search categories..." : "Search products...";
+    pathname === "/catalog/categories" ? "Search categories..." : "Search products...";
 
   // Loading state
   if (authLoading) {
@@ -186,7 +188,7 @@ function AdminLayoutShell({
       <aside className="hidden md:flex flex-col bg-white border-r border-outline-variant w-64 fixed left-0 top-0 h-full p-8 z-30">
         <div className="mb-8">
           <Link
-            href="/"
+            href="/catalog"
             className="font-display text-2xl font-bold text-primary tracking-tight block hover:opacity-80 transition-opacity"
           >
             Creator Studio
@@ -207,7 +209,7 @@ function AdminLayoutShell({
         </div>
         <nav className="flex-1 space-y-2">
           <Link
-            href="/"
+            href="/catalog"
             className="flex items-center gap-3 text-primary hover:bg-surface-container-low rounded-lg px-4 py-3 font-semibold transition-colors text-sm"
           >
             <span
@@ -219,7 +221,7 @@ function AdminLayoutShell({
             <span>My Products</span>
           </Link>
           <Link
-            href="/new"
+            href="/catalog/new"
             className="flex items-center gap-3 text-secondary-app hover:text-primary hover:bg-surface-container-low rounded-lg px-4 py-3 font-medium transition-colors text-sm"
           >
             <span className="material-symbols-outlined text-[20px]">
@@ -228,7 +230,7 @@ function AdminLayoutShell({
             <span>New Product</span>
           </Link>
           <Link
-            href="/categories"
+            href="/catalog/categories"
             className="flex items-center gap-3 text-secondary-app hover:text-primary hover:bg-surface-container-low rounded-lg px-4 py-3 font-medium transition-colors text-sm"
           >
             <span className="material-symbols-outlined text-[20px]">
@@ -251,7 +253,7 @@ function AdminLayoutShell({
         {/* Top header (mobile) */}
         <header className="md:hidden bg-white border-b border-outline-variant flex justify-between items-center h-16 px-6 sticky top-0 z-40">
           <Link
-            href="/"
+            href="/catalog"
             className="font-display font-bold text-xl tracking-tight text-primary"
           >
             Creator Studio
@@ -270,21 +272,21 @@ function AdminLayoutShell({
 
         <nav className="md:hidden bg-white border-b border-outline-variant px-4 py-2 flex gap-2 overflow-x-auto">
           <Link
-            href="/"
+            href="/catalog"
             className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-primary bg-surface-container-low whitespace-nowrap"
           >
             <span className="material-symbols-outlined text-[16px]">grid_view</span>
             <span>Products</span>
           </Link>
           <Link
-            href="/new"
+            href="/catalog/new"
             className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-secondary-app bg-surface-container-low whitespace-nowrap"
           >
             <span className="material-symbols-outlined text-[16px]">add_circle</span>
             <span>New</span>
           </Link>
           <Link
-            href="/categories"
+            href="/catalog/categories"
             className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-secondary-app bg-surface-container-low whitespace-nowrap"
           >
             <span className="material-symbols-outlined text-[16px]">category</span>

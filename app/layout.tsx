@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Top Securities Catalog",
-  description: "Top Securities product catalog",
-  metadataBase: new URL("https://www.topsecurities.online"),
+  title: "TOP SECURITIES",
+  description:
+    "Official website for TOP SECURITIES and WebMorphic digital application development.",
+  metadataBase: new URL("https://topsecurities.online"),
   icons: {
     shortcut: "/favicon.svg",
     icon: "/icon",
@@ -12,15 +13,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Top Securities Catalog",
-    title: "Top Securities Catalog",
-    description: "Top Securities product catalog",
+    siteName: "TOP SECURITIES",
+    title: "TOP SECURITIES",
+    description:
+      "Official website for TOP SECURITIES and WebMorphic digital application development.",
     images: ["/opengraph-image"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Top Securities Catalog",
-    description: "Top Securities product catalog",
+    title: "TOP SECURITIES",
+    description:
+      "Official website for TOP SECURITIES and WebMorphic digital application development.",
     images: ["/twitter-image"],
   },
   manifest: "/manifest.webmanifest",

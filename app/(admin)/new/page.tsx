@@ -223,7 +223,7 @@ export default function NewProductPage() {
       {/* Back button */}
       <button
         type="button"
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/catalog")}
         className="inline-flex items-center gap-1.5 text-secondary-app hover:text-primary text-sm font-medium mb-6 cursor-pointer transition-colors"
       >
         <span className="material-symbols-outlined text-[20px]">
@@ -600,7 +600,7 @@ export default function NewProductPage() {
                   <span>Open in Chrome / Browser</span>
                 </a>
                 <Link
-                  href="/"
+                  href="/catalog"
                   className="flex items-center justify-center gap-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant rounded-xl py-3 px-4 transition-colors cursor-pointer text-xs font-semibold text-primary col-span-2"
                 >
                   <span className="material-symbols-outlined text-[18px]">

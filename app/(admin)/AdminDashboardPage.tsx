@@ -289,7 +289,7 @@ function AdminDashboardContent() {
     <main className="flex-1 px-6 md:px-12 py-8 md:py-12 max-w-5xl mx-auto w-full">
       {/* Big, prominent Add Product button */}
       <Link
-        href="/new"
+        href="/catalog/new"
         className="w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-4 rounded-xl text-base transition-colors cursor-pointer shadow-sm shadow-primary/10 mb-4"
       >
         <span className="material-symbols-outlined text-[20px]">add</span>
@@ -435,7 +435,7 @@ function AdminDashboardContent() {
             </p>
           </div>
           <Link
-            href="/new"
+            href="/catalog/new"
             className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg text-sm font-semibold transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">
